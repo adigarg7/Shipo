@@ -93,7 +93,7 @@ export const deleteShipment = async (req, res) => {
     if (!shipment) {
       return res.status(404).json({ error: "Shipment not found" });
     }
-    res.json({ message: "Shipment deleted successfully" });
+    res.status(200).json({ message: "Shipment deleted successfully" });
   } catch (err) {
     res.status(400).json({ error: "Failed to delete shipment" });
   }
