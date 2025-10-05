@@ -1,16 +1,24 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const [username, setUsername] = useState(""); // ✅ New
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const router = useRouter();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    
+    console.log({ username }); // ✅ Debug
+    if (!username.trim()) {
+      setError("Username is required");
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
@@ -25,18 +33,19 @@ export default function Page() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3000/api/auth/signup", {
+      const response = await fetch("http://localhost:4000/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        credentials: "include",
+        body: JSON.stringify({ username, email, password }), // ✅ added username
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        window.location.href = "/signin";
+        router.push("/dashboard");
       } else {
         setError(data.error || "Sign up failed");
       }
@@ -62,6 +71,21 @@ export default function Page() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* ✅ Username Field */}
+          <div>
+            <label className="block text-gray-700 text-sm font-semibold mb-2">
+              Username
+            </label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+              placeholder="Enter your username"
+              required
+            />
+          </div>
+
           <div>
             <label className="block text-gray-700 text-sm font-semibold mb-2">
               Email

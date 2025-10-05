@@ -16,7 +16,7 @@ const DashboardPage = () => {
 
   const fetchShipments = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/shipments/read", {
+      const response = await fetch("http://localhost:4000/api/shipments/read", {
         method: "GET",
         credentials: 'include',
         headers: {
