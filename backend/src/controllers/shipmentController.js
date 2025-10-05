@@ -29,22 +29,37 @@ export const createShipment = async (req, res) => {
 
 export const getShipments = async (req, res) => {
   try {
-    console.log('hello1') ; 
-    const  userId  = req?.user;
-    console.log('hello12') ; 
-    if(!userId) return res.status(401).json({ error: "Unauthorized" });
-    console.log('hello2') ; 
+    const userId = req?.user;
+    if (!userId) return res.status(401).json({ error: "Unauthorized" });
+
     const username = await user.findById(userId).select("username");
-    console.log('hello3') ; 
-    if(!username) return res.status(404).json({ error: "User not found" });
-    console.log('hello4') ; 
-    const shipments = await Shipment.find({ owner: userId });
-    res.json({ shipments, username: username.username });
-    // const { status } = req.query;
-    // const filter = status ? { status } : {};
-    // const shipments = await Shipment.find(filter);
-    // res.json(shipments);
+    if (!username) return res.status(404).json({ error: "User not found" });
+
+    // ✅ Extract page, limit, and status from query
+    let { page = 1, limit = 6, status } = req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    // ✅ Build filter query
+    const filter = { owner: userId };
+    if (status && status !== "All") filter.status = status;
+
+    const totalShipments = await Shipment.countDocuments(filter);
+
+    const shipments = await Shipment.find(filter)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    res.json({
+      shipments,
+      username: username.username,
+      currentPage: page,
+      totalPages: Math.ceil(totalShipments / limit),
+      totalItems: totalShipments,
+    });
   } catch (err) {
+    console.error(err);
     res.status(400).json({ error: "Failed to fetch shipments" });
   }
 };
@@ -76,7 +91,7 @@ export const updateShipment = async (req, res) => {
     );
     console.log('hello4');
 
-    res.json(shipment);
+    res.status(200).json(shipment);
   } catch (err) {
     console.error(err);
     res.status(400).json({ error: "Failed to update shipment" });

@@ -29,7 +29,7 @@ export const ShipCard = ({ shipment, onDelete }) => {
 
         try {
             const response = await fetch(
-                `http://localhost:3000/api/shipments/delete/${shipment._id}`,
+                `http://localhost:4000/api/shipments/delete/${shipment._id}`,
                 {
                     method: 'DELETE',
                     credentials: 'include',
