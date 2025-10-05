@@ -18,7 +18,13 @@ export const signup = async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
     
-    res.cookie("token", token, { httpOnly: true, maxAge: 3600000 });
+        res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,         // must be true on prod (Vercel uses HTTPS)
+    sameSite: "None",     // cross-site cookies
+    maxAge: 3600000
+    });
+
     res.json({ success: true, user });
   } catch (err) {
     console.error('Signup error:', err);
@@ -42,7 +48,13 @@ export const signin = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
     console.log(token) ; 
 
-    res.cookie("token", token, { httpOnly: true, maxAge: 3600000 }); // 1 hour
+        res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,         // must be true on prod (Vercel uses HTTPS)
+        sameSite: "None",     // cross-site cookies
+        maxAge: 3600000
+        });
+ // 1 hour
     return res.json({ success: true }); 
   } catch (err) {
     console.log(err) ; 
