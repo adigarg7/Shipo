@@ -5,7 +5,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center px-4">
       <div className="text-center">
         <h1 className="text-6xl font-bold text-white mb-8">
-          Shipment Trackky
+          Shipo
         </h1>
         <p className="text-xl text-white mb-12 max-w-md mx-auto opacity-90">
           Track and manage all your shipments in one place
