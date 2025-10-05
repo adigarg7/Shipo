@@ -113,6 +113,26 @@ const DashboardPage = () => {
           </div>
         )}
 
+        {/* Stats Section */}
+         <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-12">
+           {[
+             { title: "Total Shipments", count: shipments.length, color: "blue" },
+             { title: "Pending", count: shipments.filter(s => s.status === "Pending").length, color: "yellow" },
+             { title: "Shipped", count: shipments.filter(s => s.status === "Shipped").length, color: "purple" },
+             { title: "Delivered", count: shipments.filter(s => s.status === "Delivered").length, color: "green" },
+             { title: "Cancelled", count: shipments.filter(s => s.status === "Cancelled").length, color: "red" }
+           ].map((stat, index) => (
+             <div key={index} className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
+               <h3 className={`text-${stat.color}-400 text-sm font-medium`}>
+                 {stat.title}
+               </h3>
+               <p className="text-3xl font-bold text-white mt-2">
+                 {stat.count}
+               </p>
+             </div>
+           ))}
+         </div>
+
         {/* Shipments Grid */}
         {shipments.length === 0 ? (
           <div className="text-center py-16 bg-gray-800/30 rounded-2xl border-2 border-dashed border-gray-700">
