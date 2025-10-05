@@ -3,7 +3,7 @@ import user from "../models/User.js";
 
 export const createShipment = async (req, res) => {
   try {
-    const { description, status, fragile, weight , distance } = req.body;
+    const { description, status, isFragile, weight , distance } = req.body;
     // console.log({ description, status, fragile, weight , distance }) ;
     // Validate required fields
     if (!description || weight === undefined || distance === undefined) {
@@ -14,7 +14,7 @@ export const createShipment = async (req, res) => {
     const shipment = await Shipment.create({
       description,
       status: status || 'pending',
-      fragile: fragile || false,
+      isFragile: isFragile || false,
       weight: parseInt(weight), 
       distance: parseInt(distance),
       owner: req?.user
