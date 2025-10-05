@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, LogOut } from "lucide-react"; // Added LogOut icon
 import { NewProjectModal } from "./_components/new-project-model";
 import { Shipgrid } from "./_components/Shipgrid";
 
@@ -16,6 +16,23 @@ const DashboardPage = () => {
   const [statusFilter, setStatusFilter] = useState("All");
   const limit = 8;
   const router = useRouter();
+
+  // --- LOGOUT FUNCTION ---
+  const handleLogout = async () => {
+    try {
+      // Call backend logout API if you have one
+      await fetch("http://localhost:4000/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      // Redirect to signin page
+      router.push("/signin");
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  };
+  // -----------------------
 
   const fetchShipments = async (page = 1, status = "All") => {
     setLoading(true);
@@ -76,13 +93,24 @@ const DashboardPage = () => {
             </p>
           </div>
 
-          <Button
-            onClick={() => setShowNewProjectModal(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 flex items-center gap-2"
-          >
-            <Plus className="h-5 w-5" />
-            New Shipment
-          </Button>
+          <div className="flex gap-4">
+            <Button
+              onClick={() => setShowNewProjectModal(true)}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 flex items-center gap-2"
+            >
+              <Plus className="h-5 w-5" />
+              New Shipment
+            </Button>
+
+            {/* Logout Button */}
+            <Button
+              onClick={handleLogout}
+              className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg transition-all duration-200 flex items-center gap-2"
+            >
+              <LogOut className="h-5 w-5" />
+              Logout
+            </Button>
+          </div>
         </div>
 
         {/* Filter Section */}

@@ -1,7 +1,6 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
 export const signup = async (req, res) => {
   try {
     const { username , email, password } = req.body;
@@ -50,3 +49,18 @@ export const signin = async (req, res) => {
     res.status(400).json({ error: "Signin failed" });
   }
 };
+
+export const logoutUser = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production", // important for prod
+    });
+    return res.status(200).json({ message: "Logged out successfully" });
+  } catch (err) {
+    console.error("Logout error:", err);
+    res.status(500).json({ error: "Logout failed" });
+  }
+};
+
