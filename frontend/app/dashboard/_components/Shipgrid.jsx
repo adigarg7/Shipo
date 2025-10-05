@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShipCard } from './ShipCard';
+import { ShipCard } from './shipCard';
 
 export const Shipgrid = ({ shipments: initialShipments }) => {
     const [shipments, setShipments] = useState(initialShipments);
