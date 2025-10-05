@@ -21,7 +21,7 @@ const DashboardPage = () => {
   const handleLogout = async () => {
     try {
       // Call backend logout API if you have one
-      await fetch("http://localhost:4000/api/auth/logout", {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`, {
         method: "POST",
         credentials: "include",
       });
@@ -42,7 +42,7 @@ const DashboardPage = () => {
       }`;
 
       const response = await fetch(
-        `http://localhost:4000/api/shipments/read?${query}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/shipments/read?${query}`,
         {
           method: "GET",
           credentials: "include",

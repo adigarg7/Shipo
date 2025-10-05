@@ -26,7 +26,7 @@ export const NewProjectModal = ({ isOpen, onClose }) => {
         setError('');
 
         try {
-            const response = await fetch('http://localhost:4000/api/shipments/create', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/shipments/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

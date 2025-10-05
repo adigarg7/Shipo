@@ -33,7 +33,7 @@ export const UpdateProjectModal = ({ shipment, isOpen, onClose, onUpdate }) => {
         setError('');
 
         try {
-            const response = await fetch(`http://localhost:4000/api/shipments/update/${shipment._id}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/shipments/update/${shipment._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

@@ -28,8 +28,7 @@ export const ShipCard = ({ shipment, onDelete }) => {
         setDeleteError('');
 
         try {
-            const response = await fetch(
-                `http://localhost:4000/api/shipments/delete/${shipment._id}`,
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/shipments/delete/${shipment._id}`,
                 {
                     method: 'DELETE',
                     credentials: 'include',

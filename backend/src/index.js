@@ -11,8 +11,9 @@ connectDB();
 const app = express();
 
 // Middleware
+// Middleware
 app.use(cors({
-  origin: 'http://localhost:4004',
+  origin: process.env.FRONTEND_URL || 'http://localhost:4004', // Use environment variable
   credentials: true
 }));
 app.use(express.json());
